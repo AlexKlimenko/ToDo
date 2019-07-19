@@ -74,6 +74,7 @@ const tasks = [
   form.addEventListener("submit", onFormSubmitHandler);
   tasksList.addEventListener("click", onDeleteHandler);
   tasksList.addEventListener("click", onSuccessHandler);
+  tasksList.addEventListener("click", onRestoreHandler);
 
   allBtn.addEventListener("click", viewAllTasks);
   uncompleteBtn.addEventListener("click", viewUncompleteTasks);
@@ -84,7 +85,10 @@ const tasks = [
 
     Object.values(obj).forEach(task => {
       const li = listItemTemplate(task);
-      fragment.appendChild(li);
+
+      li.matches(".list-group-item-success")
+        ? fragment.appendChild(li)
+        : fragment.insertBefore(li, fragment.firstChild);
     });
     tasksList.innerHTML = "";
     tasksList.appendChild(fragment);
@@ -197,16 +201,16 @@ const tasks = [
     if (target.classList.contains("success-btn")) {
       const parent = target.closest("[data-task-id]");
       parent.classList.add("list-group-item-success");
-      console.log(parent);
 
       const restoreBtn = document.createElement("button");
       restoreBtn.textContent = "Restore";
       restoreBtn.classList.add("btn", "btn-warning", "ml-2");
       // parent.insertBefore(restoreBtn, parent.children[2]);
+
       !parent.contains(restoreBtn)
         ? parent.insertBefore(restoreBtn, parent.children[2])
         : null;
-
+      console.log(parent);
       const id = parent.dataset.taskId;
 
       objOfTasks[id].completed = true;
@@ -220,6 +224,7 @@ const tasks = [
 
     const objOfUncompleteTasks = uncompleteTasks.reduce((acc, task) => {
       acc[task._id] = task;
+
       return acc;
     }, {});
 
@@ -228,5 +233,23 @@ const tasks = [
 
   function viewAllTasks() {
     renderTasks(objOfTasks);
+  }
+
+  function onRestoreHandler(e) {
+    const { target } = e;
+
+    if (target.classList.contains("restore-btn")) {
+      const parent = target.closest("[data-task-id]");
+      parent.classList.remove("list-group-item-success");
+      parent.classList.add("list-group-item-restore");
+
+      const restoreBtn = target.closest(".restore-btn");
+
+      restoreBtn.remove();
+
+      const id = parent.dataset.taskId;
+
+      objOfTasks[id].completed = false;
+    }
   }
 })(tasks);
