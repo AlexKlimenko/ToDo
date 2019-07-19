@@ -2,24 +2,46 @@
 // Список задач
 const tasks = [
   {
-    _id: "5d2ca9e2e03d40b326596aa7",
+    _id: "5d2ca9e2e03d40b324596aa7",
     completed: true,
+    body:
+      "non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
+    title: "Eu ea incididunt sunt consectetur fugiat non."
+  },
+  {
+    _id: "5d2ca9e29c8a94090c4e88e0",
+    completed: true,
+    body:
+      "cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n",
+    title:
+      "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
+  },
+  {
+    _id: "5d2ca9e2e03d40b326596aa7",
+    completed: false,
     body:
       "Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
     title: "Eu ea incididunt sunt consectetur fugiat non."
   },
   {
     _id: "5d2ca9e29c8a94095c4e88e0",
-    completed: true,
+    completed: false,
     body:
       "Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n",
     title:
       "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
+  },
+  {
+    _id: "5d2вca9e2e03d40b324596aa7",
+    completed: true,
+    body:
+      "non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
+    title: "Eu ea incididunt sunt consectetur fugiat non."
   }
 ];
 
 (function(arrOfTasks) {
-  // arrOfTasks.length === 0 && messageTemplate(tasks);
+  arrOfTasks.length === 0 && messageTemplate(tasks);
 
   const objOfTasks = arrOfTasks.reduce((acc, task) => {
     acc[task._id] = task;
@@ -32,20 +54,39 @@ const tasks = [
   const inputTitle = form.elements["title"];
   const inputBody = form.elements["body"];
 
-  renderTasks();
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "All tasks";
+  allBtn.classList.add("btn", "btn-outline-primary", "mr-1");
+
+  const uncompleteBtn = document.createElement("button");
+  uncompleteBtn.textContent = "Uncomplete tasks";
+  uncompleteBtn.classList.add("btn", "btn-outline-secondary");
+
+  const btnGroup = document.createElement("div");
+  btnGroup.classList.add("d-flex", "justify-content-center", "mt-5");
+
+  btnGroup.appendChild(allBtn);
+  btnGroup.appendChild(uncompleteBtn);
+
+  document.body.insertBefore(btnGroup, document.body.children[1]);
+
+  renderTasks(objOfTasks);
   form.addEventListener("submit", onFormSubmitHandler);
   tasksList.addEventListener("click", onDeleteHandler);
+  tasksList.addEventListener("click", onSuccessHandler);
+
+  allBtn.addEventListener("click", viewAllTasks);
+  uncompleteBtn.addEventListener("click", viewUncompleteTasks);
 
   // Functions
-  function renderTasks() {
+  function renderTasks(obj) {
     const fragment = document.createDocumentFragment();
 
-    Object.keys(objOfTasks).length === 0 && messageTemplate(tasks);
-
-    Object.values(objOfTasks).forEach(task => {
+    Object.values(obj).forEach(task => {
       const li = listItemTemplate(task);
       fragment.appendChild(li);
     });
+    tasksList.innerHTML = "";
     tasksList.appendChild(fragment);
   }
 
@@ -59,19 +100,26 @@ const tasks = [
     );
     li.setAttribute("data-task-id", task._id);
 
+    task.completed ? li.classList.add("list-group-item-success") : null;
+
     const span = document.createElement("span");
     span.textContent = task.title;
     span.style.fontWeight = "bold";
 
+    const successBtn = document.createElement("button");
+    successBtn.textContent = "Done";
+    successBtn.classList.add("btn", "btn-success", "ml-auto", "success-btn");
+
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
-    deleteBtn.classList.add("btn", "btn-danger", "ml-auto", "delete-btn");
+    deleteBtn.classList.add("btn", "btn-danger", "ml-2", "delete-btn");
 
     const article = document.createElement("p");
     article.textContent = task.body;
     article.classList.add("mt-2", "w-100");
 
     li.appendChild(span);
+    li.appendChild(successBtn);
     li.appendChild(deleteBtn);
     li.appendChild(article);
 
@@ -80,7 +128,7 @@ const tasks = [
 
   function messageTemplate() {
     const messageWarning = document.createElement("h3");
-    messageWarning.textContent = "Array of task is empty";
+    messageWarning.textContent = "You have no tasks";
     messageWarning.classList.add("d-flex", "m-auto");
 
     const card = document.querySelector(".row");
@@ -116,7 +164,7 @@ const tasks = [
     };
 
     objOfTasks[newTask._id] = newTask;
-
+    console.log(objOfTasks);
     return { ...newTask };
   }
 
@@ -129,5 +177,34 @@ const tasks = [
       delete objOfTasks[id];
     }
     Object.keys(objOfTasks).length === 0 && messageTemplate(tasks);
+  }
+
+  function onSuccessHandler(e) {
+    const { target } = e;
+    if (target.classList.contains("success-btn")) {
+      const parent = target.closest("[data-task-id]");
+      parent.classList.add("list-group-item-success");
+
+      const id = parent.dataset.taskId;
+      console.log(id);
+      objOfTasks[id].completed = true;
+    }
+  }
+
+  function viewUncompleteTasks() {
+    const uncompleteTasks = Object.values(objOfTasks).filter(
+      task => !task.completed
+    );
+
+    const objOfUncompleteTasks = uncompleteTasks.reduce((acc, task) => {
+      acc[task._id] = task;
+      return acc;
+    }, {});
+
+    renderTasks(objOfUncompleteTasks);
+  }
+
+  function viewAllTasks() {
+    renderTasks(objOfTasks);
   }
 })(tasks);
