@@ -100,7 +100,7 @@ const tasks = [
     );
     li.setAttribute("data-task-id", task._id);
 
-    task.completed ? li.classList.add("list-group-item-success") : null;
+    // task.completed ? li.classList.add("list-group-item-success") : null;
 
     const span = document.createElement("span");
     span.textContent = task.title;
@@ -114,6 +114,10 @@ const tasks = [
     deleteBtn.textContent = "Delete";
     deleteBtn.classList.add("btn", "btn-danger", "ml-2", "delete-btn");
 
+    const restoreBtn = document.createElement("button");
+    restoreBtn.textContent = "Restore";
+    restoreBtn.classList.add("btn", "btn-warning", "ml-2", "delete-btn");
+
     const article = document.createElement("p");
     article.textContent = task.body;
     article.classList.add("mt-2", "w-100");
@@ -122,6 +126,15 @@ const tasks = [
     li.appendChild(successBtn);
     li.appendChild(deleteBtn);
     li.appendChild(article);
+
+    if (task.completed) {
+      li.classList.add("list-group-item-success");
+      const restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "Restore";
+      restoreBtn.classList.add("btn", "btn-warning", "ml-2", "restore-btn");
+
+      !li.contains(restoreBtn) ? li.insertBefore(restoreBtn, deleteBtn) : null;
+    }
 
     return li;
   }
@@ -164,7 +177,7 @@ const tasks = [
     };
 
     objOfTasks[newTask._id] = newTask;
-    console.log(objOfTasks);
+
     return { ...newTask };
   }
 
@@ -184,9 +197,18 @@ const tasks = [
     if (target.classList.contains("success-btn")) {
       const parent = target.closest("[data-task-id]");
       parent.classList.add("list-group-item-success");
+      console.log(parent);
+
+      const restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "Restore";
+      restoreBtn.classList.add("btn", "btn-warning", "ml-2");
+      // parent.insertBefore(restoreBtn, parent.children[2]);
+      !parent.contains(restoreBtn)
+        ? parent.insertBefore(restoreBtn, parent.children[2])
+        : null;
 
       const id = parent.dataset.taskId;
-      console.log(id);
+
       objOfTasks[id].completed = true;
     }
   }
