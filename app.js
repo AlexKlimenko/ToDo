@@ -1,257 +1,255 @@
-console.log(
-  `1. Создать функцию, которая принимает два элемента. Функция проверяет, является ли первый элемент родителем для второго`
-);
-
-const isParent = (parent, child) => parent === child.closest(parent.tagName);
-
-
-console.log(
-  isParent(document.body.children[0], document.querySelector("mark"))
-);
-
-console.log(
-  isParent(document.querySelector("ul"), document.querySelector("mark"))
-);
-
-
-
-console.log(`
-`);
-
-console.log(
-  `2. Получить список всех ссылок, которые не находятся внутри списка ul`
-);
-
-// const links = Array.from(document.querySelectorAll('a'));
-const links = document.querySelectorAll('a');
-
-const aWithinUl = links.forEach(el => {
-  if (!el.closest('ul')) console.log(el);
-});
-// это если вывести в консоль. 
-
-
-const links1 = Array.from(document.links);
-
-const aWithinUl1 = links1.filter(el => !el.closest('ul'));
-// Это если получить новый массив ссылок. 
-console.log(aWithinUl1);
-
-console.log(`
-`);
-
-
-
-console.log(
-  `3. Найти элемент, который находится перед и после списка ul`
-);
-
-const ul = document.querySelector('ul');
-console.log(ul.previousElementSibling);
-console.log(ul.nextElementSibling);
-
-console.log(`
-`);
-
-console.log(
-  `6. Создать таблицу + дополнение функционала (задача 7)`
-);
-
-//Исходные данные
-
-const users = [{
-    "_id": "5d220b10e8265cc978e2586b",
-    "isActive": true,
-    "balance": 2853.33,
-    "age": 20,
-    "name": "Buckner Osborne",
-    "gender": "male",
-    "company": "EMPIRICA",
-    "email": "bucknerosborne@empirica.com",
-    "phone": "+1 (850) 411-2997",
-    "registered": "2018-08-13T04:28:45 -03:00",
-    "nestedField": {
-      total: 300
-    }
+// Форма
+// Список задач
+const tasks = [
+  {
+    _id: "5d2ca9e2e03d40b324596aa7",
+    completed: true,
+    body:
+      "non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
+    title: "Eu ea incididunt sunt consectetur fugiat non."
   },
   {
-    "_id": "5d220b10144ef972f6c2b332",
-    "isActive": true,
-    "balance": 1464.63,
-    "age": 38,
-    "name": "Rosalie Smith",
-    "gender": "female",
-    "company": "KATAKANA",
-    "email": "rosaliesmith@katakana.com",
-    "phone": "+1 (943) 463-2496",
-    "registered": "2016-12-09T05:15:34 -02:00",
-    "nestedField": {
-      total: 400
-    }
+    _id: "5d2ca9e29c8a94090c4e88e0",
+    completed: true,
+    body:
+      "cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n",
+    title:
+      "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
   },
   {
-    "_id": "5d220b1083a0494655cdecf6",
-    "isActive": false,
-    "balance": 2823.39,
-    "age": 40,
-    "name": "Estrada Davenport",
-    "gender": "male",
-    "company": "EBIDCO",
-    "email": "estradadavenport@ebidco.com",
-    "phone": "+1 (890) 461-2088",
-    "registered": "2016-03-04T03:36:38 -02:00",
-    "nestedField": {
-      total: 200
-    }
+    _id: "5d2ca9e2e03d40b326596aa7",
+    completed: false,
+    body:
+      "Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
+    title: "Eu ea incididunt sunt consectetur fugiat non."
+  },
+  {
+    _id: "5d2ca9e29c8a94095c4e88e0",
+    completed: false,
+    body:
+      "Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n",
+    title:
+      "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
+  },
+  {
+    _id: "5d2вca9e2e03d40b324596aa7",
+    completed: true,
+    body:
+      "non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n",
+    title: "Eu ea incididunt sunt consectetur fugiat non."
   }
 ];
 
+(function(arrOfTasks) {
+  arrOfTasks.length === 0 && messageTemplate(tasks);
 
-const table = document.querySelector('table');
-table.style.width = '100%';
-table.style['border-collapse'] = 'collapse';
+  const objOfTasks = arrOfTasks.reduce((acc, task) => {
+    acc[task._id] = task;
+    return acc;
+  }, {});
 
-const tableHeader = {
-  num: '#',
-  name: 'Name',
-  email: 'Email',
-  balance: 'Balance'
-};
+  // UI Elements
+  const tasksList = document.querySelector(".tasks-list-section .list-group");
+  const form = document.forms["addTask"];
+  const inputTitle = form.elements["title"];
+  const inputBody = form.elements["body"];
 
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "All tasks";
+  allBtn.classList.add("btn", "btn-outline-primary", "mr-1");
 
-////////////////////////
+  const uncompleteBtn = document.createElement("button");
+  uncompleteBtn.textContent = "Uncomplete tasks";
+  uncompleteBtn.classList.add("btn", "btn-outline-secondary");
 
-//Решение
+  const btnGroup = document.createElement("div");
+  btnGroup.classList.add("d-flex", "justify-content-center", "mt-5");
 
+  btnGroup.appendChild(allBtn);
+  btnGroup.appendChild(uncompleteBtn);
 
-const tableHeaderRow = document.createElement('tr');
-tableHeaderRow.style.border = '1px solid black';
-tableHeaderRow.style.backgroundColor = '#D7D7D7';
-tableHeaderRow.style.textAlign = 'left';
+  document.body.insertBefore(btnGroup, document.body.children[1]);
 
+  renderTasks(objOfTasks);
+  form.addEventListener("submit", onFormSubmitHandler);
+  tasksList.addEventListener("click", onDeleteHandler);
+  tasksList.addEventListener("click", onSuccessHandler);
+  tasksList.addEventListener("click", onRestoreHandler);
 
-const thNum = document.createElement('th');
-thNum.textContent = tableHeader.num;
+  allBtn.addEventListener("click", viewAllTasks);
+  uncompleteBtn.addEventListener("click", viewUncompleteTasks);
 
-const thName = document.createElement('th');
-thName.textContent = tableHeader.name;
+  // Functions
+  function renderTasks(obj) {
+    const fragment = document.createDocumentFragment();
 
-const thEmail = document.createElement('th');
-thEmail.textContent = tableHeader.email;
+    Object.values(obj).forEach(task => {
+      const li = listItemTemplate(task);
 
-const thBalance = document.createElement('th');
-thBalance.innerHTML = tableHeader.balance;
+      li.matches(".list-group-item-success")
+        ? fragment.appendChild(li)
+        : fragment.insertBefore(li, fragment.firstChild);
+    });
+    tasksList.innerHTML = "";
+    tasksList.appendChild(fragment);
+  }
 
-tableHeaderRow.appendChild(thNum);
-tableHeaderRow.appendChild(thName);
-tableHeaderRow.appendChild(thEmail);
-tableHeaderRow.appendChild(thBalance);
+  function listItemTemplate(task) {
+    const li = document.createElement("li");
+    li.classList.add(
+      "list-group-item",
+      "d-flex",
+      "align-items-center",
+      "flex-wrap"
+    );
+    li.setAttribute("data-task-id", task._id);
 
-table.appendChild(tableHeaderRow);
+    // task.completed ? li.classList.add("list-group-item-success") : null;
 
-tableOfUsers(users);
+    const span = document.createElement("span");
+    span.textContent = task.title;
+    span.style.fontWeight = "bold";
 
-function tableOfUsers(arrOfUsers) {
+    const successBtn = document.createElement("button");
+    successBtn.textContent = "Done";
+    successBtn.classList.add("btn", "btn-success", "ml-auto", "success-btn");
 
-  arrOfUsers.forEach((user, index) => {
-    const {
-      name,
-      email,
-      balance
-    } = user;
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("btn", "btn-danger", "ml-2", "delete-btn");
 
-    const tableRow = document.createElement('tr');
-    tableRow.style.border = '1px solid grey';
+    const restoreBtn = document.createElement("button");
+    restoreBtn.textContent = "Restore";
+    restoreBtn.classList.add("btn", "btn-warning", "ml-2", "delete-btn");
 
-    const cellNumber = document.createElement('td');
-    cellNumber.innerHTML = ++index;
+    const article = document.createElement("p");
+    article.textContent = task.body;
+    article.classList.add("mt-2", "w-100");
 
-    const cellName = document.createElement('td');
-    cellName.textContent = name;
+    li.appendChild(span);
+    li.appendChild(successBtn);
+    li.appendChild(deleteBtn);
+    li.appendChild(article);
 
-    const cellEmail = document.createElement('td');
-    cellEmail.textContent = email;
+    if (task.completed) {
+      li.classList.add("list-group-item-success");
+      const restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "Restore";
+      restoreBtn.classList.add("btn", "btn-warning", "ml-2", "restore-btn");
 
-    const cellBalance = document.createElement('td');
-    cellBalance.innerHTML = balance;
+      !li.contains(restoreBtn) ? li.insertBefore(restoreBtn, deleteBtn) : null;
+    }
 
+    return li;
+  }
 
-    tableRow.appendChild(cellNumber);
-    tableRow.appendChild(cellName);
-    tableRow.appendChild(cellEmail);
-    tableRow.appendChild(cellBalance);
+  function messageTemplate() {
+    const messageWarning = document.createElement("h3");
+    messageWarning.textContent = "You have no tasks";
+    messageWarning.classList.add("d-flex", "m-auto");
 
-    table.appendChild(tableRow);
-  });
+    const card = document.querySelector(".row");
+    card.classList.add("flex-column");
 
-  const tableTotalRow = document.createElement('tr');
-  tableTotalRow.style.border = '1px solid grey';
+    card.appendChild(messageWarning);
 
-  const emptyRow = document.createElement('td');
-  emptyRow.innerHTML = '';
-  const emptyRow2 = document.createElement('td');
-  emptyRow2.innerHTML = '';
-  const emptyRow3 = document.createElement('td');
-  emptyRow3.innerHTML = '';
+    return messageWarning;
+  }
 
-  const reducedBalance = arrOfUsers.reduce((acc, user) => acc + user.balance, 0);
+  function onFormSubmitHandler(e) {
+    e.preventDefault();
+    const titleValue = inputTitle.value;
+    const bodyValue = inputBody.value;
 
-  const totalBalance = document.createElement('td');
-  totalBalance.innerHTML = reducedBalance.toFixed(2);
-  totalBalance.style.color = 'red';
-  totalBalance.style.fontWeight = 'bold';
+    if (!titleValue || !bodyValue) {
+      alert("Пожалуйста введите title и body");
+      return;
+    }
 
-  tableTotalRow.appendChild(emptyRow);
-  tableTotalRow.appendChild(emptyRow2);
-  tableTotalRow.appendChild(emptyRow3);
-  tableTotalRow.appendChild(totalBalance);
+    const task = createNewTask(titleValue, bodyValue);
+    const listItem = listItemTemplate(task);
+    tasksList.insertAdjacentElement("afterbegin", listItem);
+    form.reset();
+  }
 
-  table.appendChild(tableTotalRow);
-};
+  function createNewTask(title, body) {
+    const newTask = {
+      title,
+      body,
+      completed: false,
+      _id: `task-${Math.random()}`
+    };
 
+    objOfTasks[newTask._id] = newTask;
 
-const sortBtn = document.querySelector('button');
-sortBtn.addEventListener('click', e => {
-  const {
-    target
-  } = e;
-  if (target.firstElementChild.classList.contains('fa-caret-up')) {
-    target.firstElementChild.classList.remove('fa-caret-up');
-    target.firstElementChild.classList.add('fa-caret-down');
-    users.sort((prevUser, nextUser) => nextUser.balance - prevUser.balance);
-  } else if (target.firstElementChild.classList.contains('fa-caret-down')) {
-    target.firstElementChild.classList.remove('fa-caret-down');
-    target.firstElementChild.classList.add('fa-caret-up');
-    users.sort((prevUser, nextUser) => prevUser.balance - nextUser.balance);
-  };
+    return { ...newTask };
+  }
 
-  table.innerHTML = '';
-  tableOfUsers(users);
-});
+  function onDeleteHandler(e) {
+    const { target } = e;
+    if (target.classList.contains("delete-btn")) {
+      const parent = target.closest("[data-task-id]");
+      const id = parent.dataset.taskId;
+      parent.remove();
+      delete objOfTasks[id];
+    }
+    Object.keys(objOfTasks).length === 0 && messageTemplate(tasks);
+  }
 
+  function onSuccessHandler(e) {
+    const { target } = e;
+    if (target.classList.contains("success-btn")) {
+      const parent = target.closest("[data-task-id]");
+      parent.classList.add("list-group-item-success");
 
+      const restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "Restore";
+      restoreBtn.classList.add("btn", "btn-warning", "ml-2");
+      // parent.insertBefore(restoreBtn, parent.children[2]);
 
+      !parent.contains(restoreBtn)
+        ? parent.insertBefore(restoreBtn, parent.children[2])
+        : null;
+      console.log(parent);
+      const id = parent.dataset.taskId;
 
+      objOfTasks[id].completed = true;
+    }
+  }
 
-console.log(`
-`);
+  function viewUncompleteTasks() {
+    const uncompleteTasks = Object.values(objOfTasks).filter(
+      task => !task.completed
+    );
 
-console.log(`1. По нажатию на кнопку "btn-msg" должен появиться алерт с тем текстом который находится в атрибуте data - text у кнопки.`);
+    const objOfUncompleteTasks = uncompleteTasks.reduce((acc, task) => {
+      acc[task._id] = task;
 
-const btn = document.querySelector('#btn-msg');
-btn.addEventListener('click', () => alert(btn.dataset.text));
+      return acc;
+    }, {});
 
-console.log(`
-`);
-console.log(`3. При нажатии на любой узел документа показать в элементе с id=tag имя тега нажатого элемента.`);
+    renderTasks(objOfUncompleteTasks);
+  }
 
-document.addEventListener('click', e => {
-  const tagOfClickedElement = document.querySelector('#tag');
-  tagOfClickedElement.textContent = `Tag: ${e.target.tagName}`
-});
+  function viewAllTasks() {
+    renderTasks(objOfTasks);
+  }
 
+  function onRestoreHandler(e) {
+    const { target } = e;
 
-console.log(`
-`);
+    if (target.classList.contains("restore-btn")) {
+      const parent = target.closest("[data-task-id]");
+      parent.classList.remove("list-group-item-success");
+      parent.classList.add("list-group-item-restore");
 
-console.log(`7. Дополнить функционал для таблицы из задачи 6. Создать кнопку которая будет при клике сортировать пользователей по возрастанию или убыванию поля balance при этом в кнопке должна показываться стрелка в какую сторону сейчас отсортированы пользователи. Иконки можете взять с font awesome, в качестве фреймворка использовался bootstrap.`);
+      const restoreBtn = target.closest(".restore-btn");
+
+      restoreBtn.remove();
+
+      const id = parent.dataset.taskId;
+
+      objOfTasks[id].completed = false;
+    }
+  }
+})(tasks);
